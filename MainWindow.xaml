@@ -1,0 +1,69 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+
+namespace AnimatedWPFApp
+{
+    public partial class MainWindow : Window
+    {
+        private Storyboard[] storyboards;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializeAnimations();
+        }
+
+        private void InitializeAnimations()
+        {
+            storyboards = new Storyboard[3];
+
+            // Создание анимаций для всех элементов
+            storyboards[0] = CreateEllipseAnimation(AnimatedEllipse);
+            storyboards[1] = CreateRectangleAnimation(AnimatedRectangle);
+        }
+
+        private Storyboard CreateEllipseAnimation(Ellipse ellipse)
+        {
+            var storyboard = new Storyboard();
+            var sizeAnimation = new DoubleAnimation
+            {
+                From = 100,
+                To = 150,
+                Duration = TimeSpan.FromSeconds(1),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+            Storyboard.SetTarget(sizeAnimation, ellipse);
+            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Width"));
+            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Height"));
+            storyboard.Children.Add(sizeAnimation);
+            return storyboard;
+        }
+
+        private Storyboard CreateRectangleAnimation(Rectangle rectangle)
+        {
+            var storyboard = new Storyboard();
+            var colorAnimation = new ColorAnimation
+            {
+                From = Colors.Red,
+                To = Colors.Yellow,
+                Duration = TimeSpan.FromSeconds(1),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+            var brush = new SolidColorBrush(Colors.Red);
+            rectangle.Fill = brush;
+            Storyboard.SetTarget(colorAnimation, brush);
+            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Color"));
+            storyboard.Children.Add(colorAnimation);
+            return storyboard;
+        }
+    }
+}
+
+
+
