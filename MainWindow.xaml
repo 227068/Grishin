@@ -1,69 +1,33 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+﻿<Window x:Class="PrakticheskayaRabota1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Практическая работа 1" Height="400" Width="600">
+    <Grid Margin="10">
+        <!-- Элемент управления Image для отображения скриншота -->
+        <Image Source="screenshot.png" Width="200" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-namespace AnimatedWPFApp
-{
-    public partial class MainWindow : Window
-    {
-        private Storyboard[] storyboards;
+        <!-- Поля ввода и вывода -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,120,0,0">
+            <TextBlock Text="Введите значение x:" Margin="0,10,0,0"/>
+            <TextBox Name="inputTextBox" Width="200" Margin="0,5,0,0"/>
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            InitializeAnimations();
-        }
+            <TextBlock Text="Результат:" Margin="0,10,0,0"/>
+            <TextBox Name="outputTextBox" Width="200" IsReadOnly="True" Margin="0,5,0,0"/>
+        </StackPanel>
 
-        private void InitializeAnimations()
-        {
-            storyboards = new Storyboard[3];
+        <!-- Кнопки-переключатели для выбора функции -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,120,0,0">
+            <RadioButton Name="shRadioButton" Content="sh(x)" IsChecked="True"/>
+            <RadioButton Name="x2RadioButton" Content="x²"/>
+            <RadioButton Name="exRadioButton" Content="e^x"/>
+        </StackPanel>
 
-            // Создание анимаций для всех элементов
-            storyboards[0] = CreateEllipseAnimation(AnimatedEllipse);
-            storyboards[1] = CreateRectangleAnimation(AnimatedRectangle);
-        }
-
-        private Storyboard CreateEllipseAnimation(Ellipse ellipse)
-        {
-            var storyboard = new Storyboard();
-            var sizeAnimation = new DoubleAnimation
-            {
-                From = 100,
-                To = 150,
-                Duration = TimeSpan.FromSeconds(1),
-                AutoReverse = true,
-                RepeatBehavior = RepeatBehavior.Forever
-            };
-            Storyboard.SetTarget(sizeAnimation, ellipse);
-            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Width"));
-            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Height"));
-            storyboard.Children.Add(sizeAnimation);
-            return storyboard;
-        }
-
-        private Storyboard CreateRectangleAnimation(Rectangle rectangle)
-        {
-            var storyboard = new Storyboard();
-            var colorAnimation = new ColorAnimation
-            {
-                From = Colors.Red,
-                To = Colors.Yellow,
-                Duration = TimeSpan.FromSeconds(1),
-                AutoReverse = true,
-                RepeatBehavior = RepeatBehavior.Forever
-            };
-            var brush = new SolidColorBrush(Colors.Red);
-            rectangle.Fill = brush;
-            Storyboard.SetTarget(colorAnimation, brush);
-            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Color"));
-            storyboard.Children.Add(colorAnimation);
-            return storyboard;
-        }
-    }
-}
-
-
+        <!-- Кнопки для вычисления и очистки -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,250,0,0">
+            <Button Name="calculateButton" Content="Вычислить" Width="100" Margin="0,0,10,0" Click="CalculateButton_Click"/>
+            <Button Name="clearButton" Content="Очистить" Width="100" Click="ClearButton_Click"/>
+        </StackPanel>
+        <Image Margin="0,0,125,249" Source="/c1dcb38d213193e39f861704c7f00061_screenshot.png" Stretch="Fill"/>
+    </Grid>
+</Window>
 
